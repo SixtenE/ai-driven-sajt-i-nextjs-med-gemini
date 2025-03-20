@@ -1,6 +1,13 @@
-export async function POST(req: Request, ) {
+import { generateText } from 'ai'
+import { google } from '@ai-sdk/google'
 
-  const { prompt } = await req.json();
+export async function POST(req: Request) {
+  const { prompt } = await req.json()
 
-  return Response.json({ message: prompt });
+  const { text } = await generateText({
+    model: google('gemini-2.0-flash-001'),
+    prompt,
+  })
+
+  return Response.json({ message: text })
 }
